@@ -136,6 +136,8 @@ int LaserUpdate( Model* mod, robot_t* robot )
       robot->pos->SetXSpeed( cruisespeed );	  
       robot->pos->SetTurnSpeed(  0 );
     }
+  robot->pos->SetXSpeed( 1 );
+  robot->pos->SetTurnSpeed(  0 );
 
   //  if( robot->pos->Stalled() )
   // 	 {
