@@ -20,9 +20,12 @@ void Stg::RegisterModels()
   // generic model
   Register( "model", Creator<Model> );
   
+  Register( "ircomm",         Creator<ModelIRComm>  );
+  Register( "accelerometer",  Creator<ModelAccelerometer>  );
   Register( "actuator",       Creator<ModelActuator> );
   Register( "blinkenlight",   Creator<ModelBlinkenlight> );
   Register( "blobfinder",     Creator<ModelBlobfinder> );
+  Register( "bumper",         Creator<ModelBumper>  );
   Register( "camera",         Creator<ModelCamera> );
   Register( "fiducial",       Creator<ModelFiducial> );
   Register( "gripper",        Creator<ModelGripper> );

@@ -13,14 +13,17 @@ set( stageSrcs
 	gl.cc
 	logentry.cc
 	model.cc
+	model_accelerometer.cc
 	model_actuator.cc
 	model_blinkenlight.cc
 	model_blobfinder.cc
+    model_bumper.cc
 	model_callbacks.cc
 	model_camera.cc
 	model_draw.cc
 	model_fiducial.cc
 	model_gripper.cc
+	model_ircomm.cc
 	model_lightindicator.cc
 	model_position.cc
 	model_ranger.cc

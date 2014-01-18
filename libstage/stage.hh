@@ -53,6 +53,8 @@
 #include <queue>
 #include <algorithm>
 
+#include <queue>
+
 // FLTK Gui includes
 #include <FL/Fl.H>
 #include <FL/Fl_Box.H>
@@ -2076,7 +2078,7 @@ namespace Stg
 	obstacles.  Returns a pointer to the first entity we are in
 	collision with, or NULL if no collision exists.  Recursively
 	calls TestCollision() on all descendents. */		
-    Model* TestCollision();
+    virtual Model* TestCollision();
   
     void CommitTestedPose();
 
@@ -2446,6 +2448,7 @@ namespace Stg
   };
 
 
+
   // BLOBFINDER MODEL --------------------------------------------------------
   /// %ModelBlobfinder class
   class ModelBlobfinder : public Model
@@ -2521,6 +2524,39 @@ namespace Stg
 	add colors individually with AddColor(); */
     void RemoveAllColors();
   };
+
+  // BUMPER MODEL --------------------------------------------------------
+  /// %ModelBumper class
+  class ModelBumper : public Model
+  {
+  private:
+	  bool currentlyBumped;
+  public:
+
+//    /** Visualize blobinder data in the GUI. */
+//    class Vis : public Visualizer
+//    {
+//    public:
+//      Vis( World* world );
+//      virtual ~Vis( void ){}
+//      virtual void Visualize( Model* mod, Camera* cam );
+//    } vis;
+
+    // constructor
+    ModelBumper( World* world,
+             Model* parent,
+             const std::string& type );
+    // destructor
+//    ~ModelBumper();
+
+    virtual void Startup();
+    virtual void Shutdown();
+//    virtual void Update();
+//    virtual void Load();
+    virtual Model* TestCollision();
+    bool hit();
+  };
+
 
 
 
@@ -2661,6 +2697,7 @@ namespace Stg
   /// %ModelFiducial class
   class ModelFiducial : public Model
   {
+	  friend class ModelIRComm;
   public:  
     /** Detected fiducial data */
     class Fiducial
@@ -2713,6 +2750,26 @@ namespace Stg
       if( count ) *count = fiducials.size();
       return &fiducials[0];
     }
+  };
+
+  class ModelIRComm : public ModelFiducial
+  {
+
+  public:
+	  ModelIRComm( World* world,
+			   Model* parent,
+			   const std::string& type );
+	  void sendMessage(const std::string& data);
+	  virtual void Load();
+	  bool isMessageAvailable();
+	  std::string getNextMessage();
+	  bool isReceiver() {return is_receiver; };
+	  bool isSender() {return is_sender; };
+  private:
+	  void pushMessage(const std::string& data);
+	  int is_sender, is_receiver;
+	  std::queue<std::string> message_queue;
+
   };
 	
 	
@@ -3024,6 +3081,36 @@ namespace Stg
     virtual void Load();
   };
 
+  // ACCELEROMETER MODEL --------------------------------------------------------
+
+  class ModelAccelerometer : public Model
+  {
+  public:
+	  ModelAccelerometer( World* world,
+	               Model* parent,
+	               const std::string& type );
+	  virtual void Update();
+	  meters_t GetAccX() { return acc_x; };
+	  meters_t GetAccY() { return acc_y; };
+	  meters_t GetAccZ() { return acc_z; };
+	  radians_t GetAccA() { return acc_a; };
+
+	  meters_t GetGlobalAccX() { return global_acc_x; };
+	  meters_t GetGlobalAccY() { return global_acc_y; };
+	  meters_t GetGlobalAccZ() { return global_acc_z; };
+	  radians_t GetGlobalAccA() { return global_acc_a; };
+
+  private:
+	  meters_t acc_x, acc_y, acc_z;
+	  radians_t acc_a;
+
+	  meters_t global_acc_x, global_acc_y, global_acc_z;
+	  radians_t global_acc_a;
+
+	  Velocity prev_global_velocity;
+
+	  Pose prev_global_pose;
+  };
 
   // ACTUATOR MODEL --------------------------------------------------------
 

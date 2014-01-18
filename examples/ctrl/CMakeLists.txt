@@ -4,6 +4,7 @@ SET( PLUGINS
   sink
   source
   wander
+  wander_rone
   pioneer_flocking
   rasterize
   lasernoise

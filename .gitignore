@@ -5,3 +5,19 @@ config.h
 *#
 .DS_Store
 docsrc/stage
+bin/
+
+#CMake
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+#QT-Creator
+.cproject

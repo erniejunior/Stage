@@ -735,14 +735,12 @@ void Model::AppendTouchingModels( std::set<Model*>& touchers )
 Model* Model::TestCollision()
 {  
   Model* hitmod( blockgroup.TestCollision() );
-  
-  if( hitmod == NULL ) 	 
+  if( hitmod == NULL )
     FOR_EACH( it, children )
-      { 
-	hitmod = (*it)->TestCollision();
-	if( hitmod )
-	  break;
-      }
+    {
+	  hitmod = (*it)->TestCollision();
+	  if( hitmod ) break;
+    }
   
   //printf( "mod %s test collision done.\n", token );
   return hitmod;  
