@@ -6,6 +6,9 @@ config.h
 .DS_Store
 docsrc/stage
 bin/
+Release/
+Debug/
+*.so
 
 #CMake
 CMakeCache.txt
@@ -18,6 +21,3 @@ install_manifest.txt
 .classpath
 .project
 .settings/
-
-#QT-Creator
-.cproject
