@@ -60,19 +60,19 @@ myrone
 (
 	name "r0"
   	pose [ 0 0.1 0 0 ]
-  	ctrl "wander_rone"
+#  	ctrl "wander_rone"
 )
 
 myrone
 (
 	name "r1"
-  	pose [ 0 1 0 0 ]
-  	ctrl "wander_rone"
+  	pose [ 1 0.1 0 0 ]
+#	ctrl "wander_rone"
 )
 
 myrone
 (
 	name "r2"
-  	pose [ -1 1 0 0 ]
-  	ctrl "wander_rone"
+  	pose [ 1 1 0 0 ]
+#	ctrl "wander_rone"
 )

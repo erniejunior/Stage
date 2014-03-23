@@ -317,7 +317,8 @@ void ModelFiducial::DataVisualize( Camera* cam )
 
 	if( showFov )
 	  {
-		 PushColor( 1,0,1,0.2  ); // magenta, with a bit of alpha
+//		 PushColor( 1,0,1,0.2  ); // magenta, with a bit of alpha
+		 PushColor(GetColor());
 
 		 GLUquadric* quadric = gluNewQuadric();
 		 

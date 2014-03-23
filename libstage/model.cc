@@ -301,7 +301,7 @@ Model::Model( World* world,
   
   if( name.size() ) // use a name if specified
     {
-      //printf( "name set %s\n", name.c_str() );
+//      printf( "name set %s\n", name.c_str() );
       SetToken( name );
     }
   else   // if a name was not specified make up a name based on the parent's
@@ -327,7 +327,7 @@ Model::Model( World* world,
 		    world->child_type_counts[type] ); 
 	}
       
-      //printf( "generated name %s\n", buf );
+//      printf( "generated name %s\n", buf );
       SetToken( buf );
     }
   

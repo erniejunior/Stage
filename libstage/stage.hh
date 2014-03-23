@@ -2010,7 +2010,7 @@ namespace Stg
     
     virtual void SetToken( const std::string& str )
     { 
-      //printf( "Model::SetToken( %s )\n", str.c_str() );
+//      printf( "Model::SetToken( %s )\n", str.c_str() );
 
       if( str.size() > 0 ) 
 	{
@@ -2526,35 +2526,23 @@ namespace Stg
   };
 
   // BUMPER MODEL --------------------------------------------------------
-  /// %ModelBumper class
+  /**
+   * \brief A virtual bumper sensor
+   *
+   * See \ref model_bumper
+   */
   class ModelBumper : public Model
   {
   private:
 	  bool currentlyBumped;
+
   public:
-
-//    /** Visualize blobinder data in the GUI. */
-//    class Vis : public Visualizer
-//    {
-//    public:
-//      Vis( World* world );
-//      virtual ~Vis( void ){}
-//      virtual void Visualize( Model* mod, Camera* cam );
-//    } vis;
-
-    // constructor
     ModelBumper( World* world,
-             Model* parent,
-             const std::string& type );
-    // destructor
-//    ~ModelBumper();
+             	 Model* parent,
+             	 const std::string& type );
 
-    virtual void Startup();
-    virtual void Shutdown();
-//    virtual void Update();
-//    virtual void Load();
     virtual Model* TestCollision();
-    bool hit();
+    inline bool hit() {return currentlyBumped;} ;
   };
 
 
@@ -3083,21 +3071,60 @@ namespace Stg
 
   // ACCELEROMETER MODEL --------------------------------------------------------
 
+  /**
+   * \brief A virtual accelerometer sensor
+   *
+   * See \ref model_accelerometer
+   */
   class ModelAccelerometer : public Model
   {
   public:
 	  ModelAccelerometer( World* world,
 	               Model* parent,
 	               const std::string& type );
+
 	  virtual void Update();
+
+	  /**
+	   * \return The linear acceleration along the local x axis.
+	   */
 	  meters_t GetAccX() { return acc_x; };
+
+	  /**
+	   * \return The linear acceleration along the local y axis.
+	   */
 	  meters_t GetAccY() { return acc_y; };
+
+	  /**
+	   * \return The linear acceleration along the local z axis (will probably be zero all the time because we work in 2.5D).
+	   */
 	  meters_t GetAccZ() { return acc_z; };
+
+	  /**
+	   * \return The rotational acceleration along the local z axis.
+	   */
 	  radians_t GetAccA() { return acc_a; };
 
+	  /**
+	   * \return The linear acceleration along the global x axis.
+	   */
 	  meters_t GetGlobalAccX() { return global_acc_x; };
+
+	  /**
+	   * \return The linear acceleration along the global y axis.
+	   */
 	  meters_t GetGlobalAccY() { return global_acc_y; };
+
+	  /**
+	   * Note: This value is the same as the local acceleration along the z axis.
+	   * \return The linear acceleration along the global z axis.
+	   */
 	  meters_t GetGlobalAccZ() { return global_acc_z; };
+
+	  /**
+	   * Note: This value is the same as the local rotational acceleration.
+	   * \return The rotational acceleration along the global z axis.
+	   */
 	  radians_t GetGlobalAccA() { return global_acc_a; };
 
   private:

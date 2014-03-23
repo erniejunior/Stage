@@ -1,13 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
 //
-// File: model_blobfinder.c
-// Author: Richard Vaughan
-// Date: 10 June 2004
-//
-// CVS info:
-//  $Source: /home/tcollett/stagecvs/playerstage-cvs/code/stage/libstage/model_blobfinder.cc,v $
-//  $Author: rtv $
-//  $Revision$
+// File: model_accelerometer.c
+// Author: Maximilian Ernestus
+// Date: 13 February 2013
 //
 ///////////////////////////////////////////////////////////////////////////
 
@@ -20,11 +15,29 @@ using namespace Stg;
 
 /**
    @ingroup model
-   @defgroup model_bumper Bumper model
+   @defgroup model_accelerometer Accelerometer model
 
-   BUMPERDESCRIPTIONHERETODOTODO!!!
+   Attach this acceleration sensor to any model to measure its acceleration.
+   Linear acceleration is in \f$m/s^2\f$ while rotational acceleration is in \f$rad/s^2\f$.
 
-   API: Stg::ModelBumper
+   API: Stg::ModelAccelerometer
+
+   Two kinds of acceleration are computed: *global* acceleration and *local* acceleration.
+
+
+   Global acceleration
+   -------------------
+   Is the acceleration as seen "from above" from a global point of view.
+
+   Most importantly, if your robot drives in a different direction the
+   sensed acceleration will be in a different direction
+
+   Local acceleration
+   ------------------
+   Is the acceleration as perceived from an acceleration sensor placed on your robot.
+
+   Most importantly, if the robot is driving forward, the sensor will sense forward acceleration,
+   no matter what global direction the robot is currently heading.
 
 */
 
@@ -51,19 +64,17 @@ void ModelAccelerometer::Update()
 
 		Pose global_pose = parent->GetGlobalPose();
 
-
-
-		Velocity global_velocity = Velocity(global_pose.x - prev_global_pose.x,
-											global_pose.y - prev_global_pose.y,
-											global_pose.z - prev_global_pose.z,
-											global_pose.a - prev_global_pose.a);
+		Velocity global_velocity = Velocity((global_pose.x - prev_global_pose.x)/interval,
+											(global_pose.y - prev_global_pose.y)/interval,
+											(global_pose.z - prev_global_pose.z)/interval,
+											(global_pose.a - prev_global_pose.a)/interval);
 
 		global_acc_x = (global_velocity.x - prev_global_velocity.x)/interval;
 		global_acc_y = (global_velocity.y - prev_global_velocity.y)/interval;
 		global_acc_z = (global_velocity.z - prev_global_velocity.z)/interval;
 		global_acc_a = (global_velocity.a - prev_global_velocity.a)/interval;
 
-		//The measured velocity is the global velocity rotated
+		//To compute the measured velocity we rotate the global velocity "back"
 		double cosTheta = cos(-global_pose.a);
 		double sinTheta = sin(-global_pose.a);
 
@@ -71,13 +82,6 @@ void ModelAccelerometer::Update()
 		acc_y = global_acc_x * sinTheta + global_acc_y * cosTheta;
 		acc_z = global_acc_z;
 		acc_a = global_acc_a;
-
-//		std::cout << "Global x:" << global_acc_x << " y:" << global_acc_y << std::endl;
-//		std::cout << "x:" << acc_x << " y:" << acc_y << std::endl;
-//		std::cout << "Global force: " << sqrt(global_acc_x*global_acc_x + global_acc_y*global_acc_y) << std::endl;
-//		std::cout << "Force: " << sqrt(acc_x*acc_x + acc_y*acc_y) << std::endl;
-//		std::cout << "Rot: " << global_pose.a << std::endl;
-//		std::cout << std::endl;
 
 		prev_global_velocity = global_velocity;
 		prev_global_pose = global_pose;
