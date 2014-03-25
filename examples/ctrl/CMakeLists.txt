@@ -22,6 +22,11 @@ ADD_LIBRARY( fasr2 MODULE fasr2.cc astar/findpath.cpp )
 # add extras to the list of plugins
 SET( PLUGINS ${PLUGINS} fasr2 )
 
+ADD_LIBRARY( noisyflocking MODULE noisyflocking.cc rone.cpp )
+
+# add extras to the list of plugins
+SET( PLUGINS ${PLUGINS} noisyflocking )
+
 set_source_files_properties( ${PLUGINS} PROPERTIES 
   COMPILE_FLAGS "${FLTK_CFLAGS}" 
 )
